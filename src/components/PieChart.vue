@@ -1,8 +1,10 @@
 <template>
-  <v-card elevation="0">
+  <v-card
+    elevation="0"
+    border
+  >
     <g-chart
       type="PieChart"
-      :resizeDebounce="500"
       :options="options"
       :data="collectionData"
     ></g-chart>

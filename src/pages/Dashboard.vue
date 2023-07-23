@@ -1,8 +1,37 @@
 <template>
-  <pie-chart
-    :collection-data="data"
-    :options="options"
-  ></pie-chart>
+  <v-container>
+    <v-row>
+      <v-col
+        cols="12"
+        sm="6"
+      >
+        <v-sheet
+          rounded="lg"
+          min-height="20vh"
+        >
+          <pie-chart
+            :collection-data="statusesData"
+            :options="options"
+          ></pie-chart>
+        </v-sheet>
+      </v-col>
+
+    <v-col
+      cols="12"
+      sm="6"
+    >
+      <v-sheet
+        rounded="lg"
+        min-height="20vh"
+      >
+        <pie-chart
+          :collection-data="dummyData"
+          :options="options"
+        ></pie-chart>
+      </v-sheet>
+    </v-col>
+  </v-row>
+</v-container>
 </template>
 
 <script setup>
@@ -19,14 +48,19 @@ const pieConf = {
 
 const chartHeaders = ['Status', 'Count']
 
-const data = ref([]);
+const statusesData = ref([]);
+const dummyData = [
+  ["", ""],
+  ["available", 34],
+    ["offline", 5],
+    ["reserved", 3],
+    ["charging", 9]
+]
 
 const options = {
   pieHole: 0.4,
-  width: 400,
-  height: 300,
   colors: Object.values(pieConf),
-  legend: 'none',
+  legend: 'right',
 };
 
 const processSSE = (event) => {
@@ -36,12 +70,11 @@ const processSSE = (event) => {
 
 // component
 const updatePieChart = (conf, headers, statuses) => {
-    console.log("start update chart with statuses: ", statuses)
-    data.value = [headers]
+    statusesData.value = [headers]
     for (let pkey in conf) {
       for (let rkey in statuses) {
         if (pkey === rkey) {
-          data.value.push([pkey, statuses[rkey]])
+          statusesData.value.push([pkey, statuses[rkey]])
         }
       }
     }

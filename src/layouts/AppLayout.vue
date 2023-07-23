@@ -39,7 +39,7 @@
           >
             <v-sheet
               rounded="lg"
-              min-height="90vh"
+              min-height="70vh"
             >
               <!--  -->
             </v-sheet>
@@ -63,7 +63,7 @@
           >
             <v-sheet
               rounded="lg"
-              min-height="90vh"
+              min-height="70vh"
             >
               <!--  -->
             </v-sheet>
