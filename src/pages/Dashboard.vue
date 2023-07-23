@@ -8,6 +8,7 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import PieChart from "@/components/PieChart";
+import { useEventSource } from "@/pages/utils/sse";
 
 const pieConf = {
   "available": '#ea9191',
@@ -29,13 +30,13 @@ const options = {
 };
 
 const processSSE = (event) => {
-    let response = JSON.parse(event.data)
-    let data = response.data.meta.count;
+    let data = event.meta.count
     updatePieChart(pieConf, chartHeaders, data)
   }
 
 // component
 const updatePieChart = (conf, headers, statuses) => {
+    console.log("start update chart with statuses: ", statuses)
     data.value = [headers]
     for (let pkey in conf) {
       for (let rkey in statuses) {
@@ -47,11 +48,7 @@ const updatePieChart = (conf, headers, statuses) => {
   }
 
 onMounted(() => {
-  // component
-  const sse = new EventSource("http://localhost:8000/stream");
-    sse.addEventListener("message", (e) => {
-      processSSE(e);
-    });
+  useEventSource(processSSE);
 
   let response = {
     "available": 0,
@@ -61,4 +58,5 @@ onMounted(() => {
   };
   updatePieChart(pieConf, chartHeaders, response)
 })
+
 </script>
