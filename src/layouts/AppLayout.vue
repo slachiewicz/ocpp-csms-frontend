@@ -81,6 +81,10 @@
       path: "dashboard"
     },
     {
+      name: "Locations",
+      path: "locations"
+    },
+    {
       name: "Stations",
       path: "stations"
     },

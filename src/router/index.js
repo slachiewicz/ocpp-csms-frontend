@@ -21,6 +21,11 @@ const routes = [
         name: 'Transactions',
         component: () => import(/* webpackChunkName: "home" */ '@/pages/Transactions.vue'),
       },
+      {
+        path: 'locations',
+        name: 'Locations',
+        component: () => import(/* webpackChunkName: "home" */ '@/pages/Locations.vue'),
+      },
     ],
   },
 ]
