@@ -76,10 +76,9 @@
 
 <script setup>
 import { onBeforeMount } from "vue";
-import { useSSEStore } from "@/store/sse";
+import { initEventSource } from "@/store/sse"
 
   onBeforeMount(() => {
-    const { initEventSource } = useSSEStore()
     initEventSource()
   })
 

@@ -37,7 +37,7 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import PieChart from "@/components/PieChart";
-import { useSSEStore } from "@/store/sse";
+import { updateEventListener } from "@/store/sse";
 
 const pieConf = {
   "available": '#ea9191',
@@ -82,7 +82,6 @@ const updatePieChart = (conf, headers, statuses) => {
   }
 
 onMounted(() => {
-  const { updateEventListener } =useSSEStore()
   updateEventListener(processSSE);
 
   let response = {
