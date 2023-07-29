@@ -75,6 +75,14 @@
 </template>
 
 <script setup>
+import { onBeforeMount } from "vue";
+import { useSSEStore } from "@/store/sse";
+
+  onBeforeMount(() => {
+    const { initEventSource } = useSSEStore()
+    initEventSource()
+  })
+
   const links = [
     {
       name: "Dashboard",

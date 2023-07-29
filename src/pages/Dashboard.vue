@@ -37,7 +37,7 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import PieChart from "@/components/PieChart";
-import { useEventSource } from "@/pages/utils/sse";
+import { useSSEStore } from "@/store/sse";
 
 const pieConf = {
   "available": '#ea9191',
@@ -64,6 +64,7 @@ const options = {
 };
 
 const processSSE = (event) => {
+    console.log("Start process dashboard SSE.")
     let data = event.meta.count
     updatePieChart(pieConf, chartHeaders, data)
   }
@@ -81,7 +82,8 @@ const updatePieChart = (conf, headers, statuses) => {
   }
 
 onMounted(() => {
-  useEventSource(processSSE);
+  const { updateEventListener } =useSSEStore()
+  updateEventListener(processSSE);
 
   let response = {
     "available": 0,

@@ -1,13 +1,16 @@
-
 var sse;
 var listener;
 
-function useEventSource(func) {
-  let type = "message"
+function useEventSource() {
 
     if (!sse) {
       sse = new EventSource("http://localhost:8000/stream");
     }
+}
+
+function useEventListener(func) {
+    let type = "message"
+
     // listener is not appended if it has the same type as previous listener
     // keep previous listener and remove it before adding a new one
     if (listener) {
@@ -21,5 +24,4 @@ function useEventSource(func) {
     sse.addEventListener(type, listener)
 }
 
-
-export { useEventSource }
+export { useEventSource, useEventListener }
