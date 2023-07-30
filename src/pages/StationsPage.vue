@@ -9,20 +9,22 @@
       :hover="true"
       density="comfortable"
       item-value="id"
-      class="elevation-1"
     >
-      <template #bottom></template>
       <template v-slot:item.status="{ item }">
-        <v-chip :color="getColor(item.columns.status)">
+        <v-chip :color="getStatusColor(item.columns.status)">
           {{ item.columns.status }}
         </v-chip>
       </template>
       <template v-slot:item.id="{ item }">
-        <p class="text-caption">{{ item.columns.id }}</p>
+        <p :class="itemClass">{{ item.columns.id }}</p>
       </template>
       <template v-slot:item.updated_at="{ item }">
-        <p class="text-caption">{{ item.columns.updated_at }}</p>
+        <p :class="itemClass">{{ item.columns.updated_at }}</p>
       </template>
+      <template v-slot:item.location="{ item }">
+        <p :class="itemClass">{{ item.columns.location }}</p>
+      </template>
+      <template #bottom></template>
     </v-data-table>
   </v-card>
   <empty-data v-else></empty-data>
@@ -36,10 +38,12 @@ import { useStationsStore } from "@/store/stations";
 import EmptyData from "@/components/EmptyData";
 import { dateAgo } from "@/filters/date";
 import { EVENT_NAMES, STATION_STATUS } from "@/components/enums";
+import { getStatusColor } from "@/pages/utils";
 
 const store = useStationsStore();
 const { fetchStations, refreshStation } = store;
 const { stations } = storeToRefs(store);
+const itemClass = "text-caption";
 
 const headers = [
   {
@@ -47,7 +51,7 @@ const headers = [
     key: "id",
     align: "center",
     sortable: false,
-    width: "30%",
+    width: "20%",
   },
   {
     title: "Status",
@@ -57,20 +61,22 @@ const headers = [
     width: "20%",
   },
   {
+    title: "Location",
+    key: "location",
+    align: "center",
+    sortable: false,
+    width: "30%",
+    value: (v) => `${v.location.city}/${v.location.name}`,
+  },
+  {
     title: "Last activity",
     key: "updated_at",
     align: "center",
     sortable: true,
     value: (v) => dateAgo(v.updated_at),
-    width: "50%",
+    width: "30%",
   },
 ];
-
-const getColor = (status) => {
-  if (status === "offline") return "grey";
-  else if (status === "available") return "orange";
-  else return "green";
-};
 
 const processSSE = (event) => {
   console.log("Start process event for stations.");

@@ -7,16 +7,18 @@ import { storeToRefs } from "pinia";
 import { ref, watch, onBeforeMount } from "vue";
 import PieChart from "@/components/PieChart";
 import { useStationsStore } from "@/store/stations";
+import { getStatusColor } from "@/pages/utils";
+import { STATION_STATUS } from "@/components/enums";
 
 const sseStore = useStationsStore();
 const { getCounters } = sseStore;
 const { counters } = storeToRefs(sseStore);
 
 const pieConf = {
-  available: "orange",
-  charging: "#66DA26",
-  reserved: "#2edbfa",
-  offline: "#cfd2ce",
+  available: getStatusColor(STATION_STATUS.available),
+  charging: getStatusColor(STATION_STATUS.charging),
+  reserved: getStatusColor(STATION_STATUS.reserved),
+  offline: getStatusColor(STATION_STATUS.offline),
 };
 
 const chartHeaders = ["Status", "Count"];
