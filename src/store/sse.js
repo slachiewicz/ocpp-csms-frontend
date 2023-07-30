@@ -1,32 +1,33 @@
 // Utilities
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
+const API_URL = import.meta.env.VITE_API_URL;
 
 const useSSEStore = defineStore("sse", {
   state: () => ({
     sseEventSource: null,
     listener: null,
-    eventType: "message"
+    eventType: "message",
   }),
   actions: {
-
     initEventSource() {
       if (!this.sseEventSource) {
-        this.sseEventSource = new EventSource("http://localhost:8000/stream");
-      }},
+        let url = API_URL + "/stream";
+        this.sseEventSource = new EventSource(url);
+      }
+    },
 
     updateEventListener(func) {
       if (this.listener) {
-        this.sseEventSource.removeEventListener(this.eventType, this.listener)
+        this.sseEventSource.removeEventListener(this.eventType, this.listener);
       }
       this.listener = (event) => {
-        let response = JSON.parse(event.data)
-        func(response.data)
-      }
-      this.sseEventSource.addEventListener(this.eventType, this.listener)
-    }
+        let response = JSON.parse(event.data);
+        func(response.data);
+      };
+      this.sseEventSource.addEventListener(this.eventType, this.listener);
+    },
+  },
+});
 
-  }
-})
-
-export const { initEventSource, updateEventListener } = useSSEStore()
+export const { initEventSource, updateEventListener } = useSSEStore();

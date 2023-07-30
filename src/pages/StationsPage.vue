@@ -7,10 +7,10 @@ import { onMounted } from "vue";
 import { updateEventListener } from "@/store/sse";
 
 const processSSE = (event) => {
-    console.log("Start process stations SSE.")
-  }
+  console.log("Start process stations SSE.");
+};
 
 onMounted(() => {
-  updateEventListener(processSSE)
-})
+  updateEventListener(processSSE);
+});
 </script>

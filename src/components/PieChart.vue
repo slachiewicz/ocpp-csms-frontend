@@ -1,8 +1,5 @@
 <template>
-  <v-card
-    elevation="0"
-    border
-  >
+  <v-card elevation="0" border>
     <g-chart
       type="PieChart"
       :options="options"
@@ -19,11 +16,11 @@ export default {
   components: { GChart },
   props: {
     collectionData: {
-      type: Array
+      type: Array,
     },
     options: {
-      type: Object
-    }
-  }
+      type: Object,
+    },
+  },
 };
 </script>

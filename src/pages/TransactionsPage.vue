@@ -2,5 +2,4 @@
   <div>Transactions</div>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
