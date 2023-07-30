@@ -18,14 +18,16 @@ import { updateEventListener } from "@/store/sse";
 import { useStationsStore } from "@/store/stations";
 import StatusesPieChart from "@/pages/dashboard/components/StatusesPieChart";
 import EmptyData from "@/components/EmptyData";
+import { EVENT_NAMES } from "@/components/enums";
 
 const store = useStationsStore();
 const { fetchCounters, updateCounters } = store;
 const { counters } = storeToRefs(store);
 
 const processSSE = (event) => {
-  console.log("Start process dashboard SSE.");
-  updateCounters(event.meta.count);
+  if ([EVENT_NAMES.new_connection, EVENT_NAMES.lost_connection].includes(event.name)) {
+    updateCounters(event.meta.count);
+  }
 };
 
 onMounted(() => {

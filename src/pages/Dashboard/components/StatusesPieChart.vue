@@ -13,7 +13,7 @@ const { getCounters } = sseStore;
 const { counters } = storeToRefs(sseStore);
 
 const pieConf = {
-  available: "#ea9191",
+  available: "orange",
   charging: "#66DA26",
   reserved: "#2edbfa",
   offline: "#cfd2ce",

@@ -3,7 +3,7 @@ import { DATETIME_FORMAT } from "@/components/enums";
 
 function dateAgo(value) {
   if (value) {
-    return moment(String(value)).fromNow();
+    return moment.utc(String(value)).local().fromNow();
   }
 
   return "–";
@@ -11,7 +11,7 @@ function dateAgo(value) {
 
 function date(value, format = DATETIME_FORMAT) {
   if (value) {
-    return moment(String(value)).format(format);
+    return moment(String(value)).local().format(format);
   }
 
   return "–";
