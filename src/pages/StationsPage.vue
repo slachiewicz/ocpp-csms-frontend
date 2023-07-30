@@ -38,7 +38,7 @@ import { dateAgo } from "@/filters/date";
 import { EVENT_NAMES, STATION_STATUS } from "@/components/enums";
 
 const store = useStationsStore();
-const { fetchStations, updateStationsStatus } = store;
+const { fetchStations, refreshStation } = store;
 const { stations } = storeToRefs(store);
 
 const headers = [
@@ -73,6 +73,7 @@ const getColor = (status) => {
 };
 
 const processSSE = (event) => {
+  console.log("Start process event for stations.");
   let status = null;
   if (event.name === EVENT_NAMES.lost_connection) {
     status = STATION_STATUS.offline;
@@ -81,7 +82,7 @@ const processSSE = (event) => {
     status = STATION_STATUS.available;
   }
   if (status) {
-    updateStationsStatus(event.charge_point_id, status);
+    refreshStation(event.charge_point_id, status);
   }
 };
 

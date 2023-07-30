@@ -1,4 +1,3 @@
-// Utilities
 import { defineStore } from "pinia";
 import { request } from "@/api";
 import { useLoaderStore } from "@/store/loader";
@@ -18,10 +17,11 @@ export const useStationsStore = defineStore("stations", {
         unSetLoading();
       });
     },
-    updateStationsStatus(id, status) {
+    refreshStation(id, status) {
       this.stations.forEach((item) => {
         if (item.id === id) {
           item.status = status;
+          item.updated_at = new Date().toISOString();
         }
       });
     },

@@ -25,7 +25,12 @@ const { fetchCounters, updateCounters } = store;
 const { counters } = storeToRefs(store);
 
 const processSSE = (event) => {
-  if ([EVENT_NAMES.new_connection, EVENT_NAMES.lost_connection].includes(event.name)) {
+  console.log("Start process event for dashboard.");
+  if (
+    [EVENT_NAMES.new_connection, EVENT_NAMES.lost_connection].includes(
+      event.name
+    )
+  ) {
     updateCounters(event.meta.count);
   }
 };
