@@ -1,6 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-app-bar class="px-3" color="white" flat density="compact">
+
       <v-spacer></v-spacer>
 
       <v-tabs centered color="grey-darken-2">
@@ -8,6 +9,7 @@
           {{ link.name }}
         </v-tab>
       </v-tabs>
+
       <v-spacer></v-spacer>
 
       <v-avatar
@@ -18,6 +20,10 @@
     </v-app-bar>
 
     <v-main class="bg-grey-lighten-3">
+      <v-progress-linear
+        :indeterminate="loading"
+        color="cyan"
+      ></v-progress-linear>
       <v-container>
         <v-row>
           <v-col cols="12" sm="2">
@@ -44,8 +50,12 @@
 </template>
 
 <script setup>
+import { storeToRefs } from "pinia";
 import { onBeforeMount } from "vue";
 import { initEventSource } from "@/store/sse";
+import { useLoaderStore } from "@/store/loader";
+
+const { loading } = storeToRefs(useLoaderStore());
 
 onBeforeMount(() => {
   initEventSource();

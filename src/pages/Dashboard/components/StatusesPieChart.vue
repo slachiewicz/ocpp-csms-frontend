@@ -4,7 +4,7 @@
 
 <script setup>
 import { storeToRefs } from "pinia";
-import { ref, watch } from "vue";
+import { ref, watch, onBeforeMount } from "vue";
 import PieChart from "@/components/PieChart";
 import { useStationsStore } from "@/store/stations";
 
@@ -41,4 +41,8 @@ const updateChart = (conf, headers, statuses) => {
 };
 
 watch(counters, () => updateChart(pieConf, chartHeaders, getCounters()));
+
+onBeforeMount(() => {
+  updateChart(pieConf, chartHeaders, getCounters());
+});
 </script>

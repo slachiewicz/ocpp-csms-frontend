@@ -16,9 +16,18 @@ import { registerPlugins } from "@/plugins";
 // Vuetify
 import "vuetify/styles";
 import "@mdi/font/css/materialdesignicons.css";
+import { VDataTable } from "vuetify/labs/VDataTable";
+import { createVuetify } from "vuetify";
+
+const vuetify = createVuetify({
+  components: {
+    VDataTable,
+  },
+});
 
 const app = createApp(App);
 
 registerPlugins(app);
 
+app.use(vuetify);
 app.mount("#app");
