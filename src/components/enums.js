@@ -11,3 +11,10 @@ export const STATION_STATUS = {
   reserved: "reserved",
   charging: "charging",
 };
+
+export const STATION_STATUS_COLOR = {
+  available: "orange",
+  offline: "#cfd2ce",
+  reserved: "#2edbfa",
+  charging: "#66DA26",
+};

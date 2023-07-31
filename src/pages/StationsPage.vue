@@ -11,7 +11,7 @@
       item-value="id"
     >
       <template v-slot:item.status="{ item }">
-        <v-chip :color="getStatusColor(item.columns.status)">
+        <v-chip :color="STATION_STATUS_COLOR[item.columns.status]">
           {{ item.columns.status }}
         </v-chip>
       </template>
@@ -37,8 +37,11 @@ import { updateEventListener } from "@/store/sse";
 import { useStationsStore } from "@/store/stations";
 import EmptyData from "@/components/EmptyData";
 import { dateAgo } from "@/filters/date";
-import { EVENT_NAMES, STATION_STATUS } from "@/components/enums";
-import { getStatusColor } from "@/pages/utils";
+import {
+  EVENT_NAMES,
+  STATION_STATUS,
+  STATION_STATUS_COLOR,
+} from "@/components/enums";
 
 const store = useStationsStore();
 const { fetchStations, refreshStation } = store;

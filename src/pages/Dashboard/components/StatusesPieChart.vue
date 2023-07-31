@@ -1,5 +1,8 @@
 <template>
-  <pie-chart :collection-data="statusesData" :options="options"></pie-chart>
+  <pie-chart
+    :collection-data="chartData"
+    :options="CHART_CONF.options"
+  ></pie-chart>
 </template>
 
 <script setup>
@@ -7,44 +10,42 @@ import { storeToRefs } from "pinia";
 import { ref, watch, onBeforeMount } from "vue";
 import PieChart from "@/components/PieChart";
 import { useStationsStore } from "@/store/stations";
-import { getStatusColor } from "@/pages/utils";
-import { STATION_STATUS } from "@/components/enums";
+import { STATION_STATUS_COLOR } from "@/components/enums";
 
 const sseStore = useStationsStore();
 const { getCounters } = sseStore;
 const { counters } = storeToRefs(sseStore);
 
-const pieConf = {
-  available: getStatusColor(STATION_STATUS.available),
-  charging: getStatusColor(STATION_STATUS.charging),
-  reserved: getStatusColor(STATION_STATUS.reserved),
-  offline: getStatusColor(STATION_STATUS.offline),
-};
+const chartData = ref([]);
 
-const chartHeaders = ["Status", "Count"];
-
-const statusesData = ref([]);
-
-const options = {
-  pieHole: 0.4,
-  colors: Object.values(pieConf),
-  legend: "right",
-};
-
-const updateChart = (conf, headers, statuses) => {
-  statusesData.value = [headers];
-  for (let pkey in conf) {
-    for (let rkey in statuses) {
-      if (pkey === rkey) {
-        statusesData.value.push([pkey, statuses[rkey]]);
+const CHART_CONF = {
+  headers: ["", ""],
+  options: {
+    pieHole: 0.4,
+    colors: [],
+    legend: "right",
+  },
+  initialize(colors) {
+    this.options.colors = Object.values(colors);
+  },
+  updateData(chartData, counters, colors) {
+    chartData.value = [this.headers];
+    for (let pkey in colors) {
+      for (let rkey in counters) {
+        if (pkey === rkey) {
+          chartData.value.push([pkey, counters[rkey]]);
+        }
       }
     }
-  }
+  },
 };
 
-watch(counters, () => updateChart(pieConf, chartHeaders, getCounters()));
+watch(counters, () =>
+  CHART_CONF.updateData(chartData, getCounters(), STATION_STATUS_COLOR)
+);
 
 onBeforeMount(() => {
-  updateChart(pieConf, chartHeaders, getCounters());
+  CHART_CONF.initialize(STATION_STATUS_COLOR);
+  CHART_CONF.updateData(chartData, getCounters(), STATION_STATUS_COLOR);
 });
 </script>
