@@ -82,7 +82,7 @@ const headers = [
 ];
 
 const processSSE = (event) => {
-  console.log("Start process event for stations.");
+  console.log(`Start process event for stations (event=${event.name}.)`);
   let status = null;
   if (event.name === EVENT_NAMES.lost_connection) {
     status = STATION_STATUS.offline;
