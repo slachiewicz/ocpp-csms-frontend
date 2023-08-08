@@ -87,7 +87,9 @@ const processSSE = (event) => {
   if (event.name === EVENT_NAMES.lost_connection) {
     status = STATION_STATUS.offline;
   }
-  if (event.name === EVENT_NAMES.new_connection) {
+  if (
+    [EVENT_NAMES.new_connection, EVENT_NAMES.heartbeat].includes(event.name)
+  ) {
     status = STATION_STATUS.available;
   }
   if (status) {
