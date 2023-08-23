@@ -22,7 +22,7 @@ export function request(
     ...options
   } = {}
 ) {
-  let url = API_URL + path;
+  let url = API_URL + (path.startsWith("/") ? path : `/${path}`);
   return axios({
     url,
     method: "get",
