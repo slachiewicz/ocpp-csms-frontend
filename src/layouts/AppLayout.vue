@@ -5,7 +5,12 @@
       <v-spacer></v-spacer>
 
       <v-tabs centered color="grey-darken-1">
-        <v-tab v-for="link in links" :key="link.name" :to="link.path">
+        <v-tab
+          v-for="link in links"
+          :key="link.name"
+          :to="link.path"
+          density="comfortable"
+        >
           {{ link.name }}
         </v-tab>
       </v-tabs>
@@ -54,8 +59,10 @@ import { storeToRefs } from "pinia";
 import { onBeforeMount } from "vue";
 import { initEventSource } from "@/store/sse";
 import { useLoaderStore } from "@/store/loader";
+import { useAuthStore } from "@/store/auth";
 
 const { loading } = storeToRefs(useLoaderStore());
+const { currentAccountId } = useAuthStore();
 
 onBeforeMount(() => {
   initEventSource();
@@ -64,19 +71,19 @@ onBeforeMount(() => {
 const links = [
   {
     name: "Dashboard",
-    path: "dashboard",
+    path: `/${currentAccountId}/dashboard`,
   },
   {
     name: "Locations",
-    path: "locations",
+    path: `/${currentAccountId}/locations`,
   },
   {
     name: "Stations",
-    path: "stations",
+    path: "/stations",
   },
   {
     name: "Transactions",
-    path: "transactions",
+    path: "/transactions",
   },
 ];
 </script>

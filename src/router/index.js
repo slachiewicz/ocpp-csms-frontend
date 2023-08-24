@@ -1,12 +1,17 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+
+const PATTERNS = {
+  uuid: "\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}\\b",
+};
+
 const routes = [
   {
     path: "/",
     component: () => import("@/layouts/AppLayout.vue"),
     children: [
       {
-        path: "dashboard",
+        path: `/:accountId(${PATTERNS.uuid})/dashboard`,
         name: "Dashboard",
         component: () =>
           import(
@@ -26,7 +31,7 @@ const routes = [
           import(/* webpackChunkName: "home" */ "@/pages/TransactionsPage.vue"),
       },
       {
-        path: "locations",
+        path: `/:accountId(${PATTERNS.uuid})/locations`,
         name: "Locations",
         component: () =>
           import(/* webpackChunkName: "home" */ "@/pages/LocationsPage.vue"),

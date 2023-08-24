@@ -3,13 +3,12 @@ import { useLoaderStore } from "@/store/loader";
 import { useAuthStore } from "@/store/auth";
 
 const { setLoading, unSetLoading } = useLoaderStore();
+const { getAccountId } = useAuthStore();
 
-const { getCurrentAccountId } = useAuthStore();
-
-export function requestLocationsList({ page, size }) {
+export function requestLocationsList({ page }) {
   setLoading();
   return request
-    .get(`/${getCurrentAccountId()}/locations?page=${page}&size=${size}`)
+    .get(`/${getAccountId()}/locations?page=${page}`)
     .then((response) => {
       unSetLoading();
       return response;
