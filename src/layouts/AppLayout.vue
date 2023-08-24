@@ -79,7 +79,7 @@ const links = [
   },
   {
     name: "Stations",
-    path: "/stations",
+    path: `/${currentAccountId}/stations`,
   },
   {
     name: "Transactions",

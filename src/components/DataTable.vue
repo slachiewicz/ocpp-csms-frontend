@@ -1,18 +1,19 @@
 <template>
-  <v-card elevation="0" v-if="items.length">
+  <v-card elevation="0" v-if="items && items.length">
     <v-card-title>
       <v-card-item class="text-center">{{ title }}</v-card-item>
     </v-card-title>
-    <slot :items="items" :headers="headers" :rowConfig="rowConfig">
-      <v-data-table
-        :headers="headers"
-        :items="items"
-        :hover="rowConfig.hover"
-        :density="rowConfig.density"
-        :class="rowConfig.fontStyle"
-      >
-      </v-data-table>
-    </slot>
+    <v-data-table
+      :headers="headers"
+      :items="items"
+      :hover="rowConfig.hover"
+      :density="rowConfig.density"
+      :class="rowConfig.fontStyle"
+    >
+      <template v-for="(_, name) in $slots" #[name]="slotProps">
+        <slot :name="name" v-bind="slotProps || {}"></slot>
+      </template>
+    </v-data-table>
     <v-divider></v-divider>
     <div class="text-center">
       <v-pagination

@@ -1,52 +1,29 @@
 <template>
-  <v-card elevation="0" v-if="stations.length">
-    <v-card-title>
-      <v-card-item class="text-center">Stations</v-card-item>
-    </v-card-title>
-    <v-data-table
-      :headers="headers"
-      :items="stations"
-      :hover="true"
-      density="comfortable"
-      item-value="id"
-    >
-      <template v-slot:item.status="{ item }">
-        <v-chip :color="STATION_STATUS_COLOR[item.columns.status]">
-          {{ item.columns.status }}
-        </v-chip>
-      </template>
-      <template v-slot:item.id="{ item }">
-        <p :class="itemClass">{{ item.columns.id }}</p>
-      </template>
-      <template v-slot:item.updated_at="{ item }">
-        <p :class="itemClass">{{ item.columns.updated_at }}</p>
-      </template>
-      <template v-slot:item.location="{ item }">
-        <p :class="itemClass">{{ item.columns.location }}</p>
-      </template>
-      <template #bottom></template>
-    </v-data-table>
-  </v-card>
-  <empty-data v-else></empty-data>
+  <data-table
+    title="Stations"
+    :items-loader="requestStationsList"
+    :headers="headers"
+  >
+    <template v-slot:item.status="{ item }">
+      <v-chip :color="STATION_STATUS_COLOR[item.columns.status]">
+        {{ item.columns.status }}
+      </v-chip>
+    </template>
+  </data-table>
 </template>
 
 <script setup>
-import { storeToRefs } from "pinia";
 import { onMounted } from "vue";
 import { updateEventListener } from "@/store/sse";
-import { useStationsStore } from "@/store/stations";
-import EmptyData from "@/components/EmptyData";
 import { dateAgo } from "@/filters/date";
+import DataTable from "@/components/DataTable";
+import { requestStationsList } from "@/services/stations";
+
 import {
   EVENT_NAMES,
   STATION_STATUS,
   STATION_STATUS_COLOR,
 } from "@/components/enums";
-
-const store = useStationsStore();
-const { fetchStations, refreshStation } = store;
-const { stations } = storeToRefs(store);
-const itemClass = "text-caption";
 
 const headers = [
   {
@@ -92,13 +69,12 @@ const processSSE = (event) => {
   ) {
     status = STATION_STATUS.available;
   }
-  if (status) {
-    refreshStation(event.charge_point_id, status);
-  }
+  // if (status) {
+  //   refreshStation(event.charge_point_id, status);
+  // }
 };
 
 onMounted(() => {
-  fetchStations();
   updateEventListener(processSSE);
 });
 </script>

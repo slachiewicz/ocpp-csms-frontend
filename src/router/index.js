@@ -19,7 +19,7 @@ const routes = [
           ),
       },
       {
-        path: "stations",
+        path: `/:accountId(${PATTERNS.uuid})/stations`,
         name: "Stations",
         component: () =>
           import(/* webpackChunkName: "home" */ "@/pages/StationsPage.vue"),
