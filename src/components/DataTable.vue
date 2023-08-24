@@ -3,7 +3,16 @@
     <v-card-title>
       <v-card-item class="text-center">{{ title }}</v-card-item>
     </v-card-title>
-    <slot :items="items" :rowConfig="rowConfig"></slot>
+    <slot :items="items" :headers="headers" :rowConfig="rowConfig">
+      <v-data-table
+        :headers="headers"
+        :items="items"
+        :hover="rowConfig.hover"
+        :density="rowConfig.density"
+        :class="rowConfig.fontStyle"
+      >
+      </v-data-table>
+    </slot>
     <v-divider></v-divider>
     <div class="text-center">
       <v-pagination
@@ -23,14 +32,14 @@ import EmptyData from "@/components/EmptyData";
 import { usePagination } from "@/use/pagination";
 
 const rowConfig = {
-  itemClass: "text-caption",
+  fontStyle: "text-caption",
   hover: true,
   density: "comfortable",
 };
 
 const props = defineProps({
-  itemsLoader: Function,
   headers: Array,
+  itemsLoader: Function,
   title: String,
 });
 
