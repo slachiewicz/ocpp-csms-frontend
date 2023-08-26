@@ -42,9 +42,10 @@ const props = defineProps({
   headers: Array,
   itemsLoader: Function,
   title: String,
+  items: Array,
 });
 
-const { items, currentPage, lastPage } = usePagination({
+const { currentPage, lastPage } = usePagination({
   itemsLoader: props.itemsLoader,
 });
 </script>

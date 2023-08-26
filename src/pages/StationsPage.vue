@@ -2,6 +2,7 @@
   <data-table
     title="Stations"
     :items-loader="requestStationsList"
+    :items="stations"
     :headers="headers"
   >
     <template v-slot:item.status="{ item }">
@@ -18,12 +19,18 @@ import { updateEventListener } from "@/store/sse";
 import { dateAgo } from "@/filters/date";
 import DataTable from "@/components/DataTable";
 import { requestStationsList } from "@/services/stations";
+import { useStationsStore } from "@/store/stations";
+import { storeToRefs } from "pinia";
 
 import {
   EVENT_NAMES,
   STATION_STATUS,
   STATION_STATUS_COLOR,
 } from "@/components/enums";
+
+const store = useStationsStore();
+const { refreshStation } = store;
+const { stations } = storeToRefs(store);
 
 const headers = [
   {
@@ -69,9 +76,9 @@ const processSSE = (event) => {
   ) {
     status = STATION_STATUS.available;
   }
-  // if (status) {
-  //   refreshStation(event.charge_point_id, status);
-  // }
+  if (status) {
+    refreshStation(event.charge_point_id, status);
+  }
 };
 
 onMounted(() => {

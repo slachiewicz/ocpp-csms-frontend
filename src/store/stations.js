@@ -10,12 +10,8 @@ export const useStationsStore = defineStore("stations", {
     stations: [],
   }),
   actions: {
-    fetchStations() {
-      setLoading();
-      request.get("/charge_points").then((response) => {
-        this.stations = response;
-        unSetLoading();
-      });
+    storeStations(items) {
+      this.stations = items;
     },
     refreshStation(id, status) {
       this.stations.forEach((item) => {
