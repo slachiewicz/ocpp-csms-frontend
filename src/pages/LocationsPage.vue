@@ -2,6 +2,7 @@
   <data-table
     title="Locations"
     :items-loader="requestLocationsList"
+    :items="locations"
     :headers="headers"
   >
   </data-table>
@@ -10,6 +11,11 @@
 <script setup>
 import DataTable from "@/components/DataTable";
 import { requestLocationsList } from "@/services/locations";
+import { storeToRefs } from "pinia";
+import { useLocationsStore } from "@/store/locations";
+
+const store = useLocationsStore();
+const { locations } = storeToRefs(store);
 
 const headers = [
   {
