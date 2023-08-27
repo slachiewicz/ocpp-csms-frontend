@@ -12,6 +12,9 @@
           density="comfortable"
         >
           {{ link.name }}
+          <v-chip v-if="counters[link.name] !== undefined" class="ml-2">{{
+            counters[link.name]
+          }}</v-chip>
         </v-tab>
       </v-tabs>
 
@@ -56,33 +59,37 @@
 
 <script setup>
 import { storeToRefs } from "pinia";
-import { onBeforeMount } from "vue";
+import { onBeforeMount, onMounted } from "vue";
 import { initEventSource } from "@/store/sse";
 import { useLoaderStore } from "@/store/loader";
 import { useAuthStore } from "@/store/auth";
+import { useCountersStore } from "@/store/counters";
 
+const { counters } = storeToRefs(useCountersStore());
 const { loading } = storeToRefs(useLoaderStore());
 const { currentAccountId } = useAuthStore();
+const { fetchCounters } = useCountersStore();
 
 onBeforeMount(() => {
   initEventSource();
+  fetchCounters();
 });
 
 const links = [
   {
-    name: "Dashboard",
+    name: "dashboard",
     path: `/${currentAccountId}/dashboard`,
   },
   {
-    name: "Locations",
+    name: "locations",
     path: `/${currentAccountId}/locations`,
   },
   {
-    name: "Stations",
+    name: "stations",
     path: `/${currentAccountId}/stations`,
   },
   {
-    name: "Transactions",
+    name: "transactions",
     path: "/transactions",
   },
 ];
