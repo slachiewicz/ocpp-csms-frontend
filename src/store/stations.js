@@ -1,8 +1,5 @@
 import { defineStore } from "pinia";
-import { request } from "@/api";
-import { useLoaderStore } from "@/store/loader";
-
-const { setLoading, unSetLoading } = useLoaderStore();
+import { requestStatusesCounts } from "@/services/stations";
 
 export const useStationsStore = defineStore("stations", {
   state: () => ({
@@ -21,11 +18,9 @@ export const useStationsStore = defineStore("stations", {
         }
       });
     },
-    fetchCounters() {
-      setLoading();
-      request.get("/charge_points/counters").then((response) => {
+    fetchStatusesCounts() {
+      requestStatusesCounts().then((response) => {
         this.counters = response;
-        unSetLoading();
       });
     },
     getCounters() {

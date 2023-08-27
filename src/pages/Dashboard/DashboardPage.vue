@@ -21,7 +21,7 @@ import EmptyData from "@/components/EmptyData";
 import { EVENT_NAMES } from "@/components/enums";
 
 const store = useStationsStore();
-const { fetchCounters, updateCounters } = store;
+const { fetchStatusesCounts, updateCounters } = store;
 const { counters } = storeToRefs(store);
 
 const processSSE = (event) => {
@@ -36,7 +36,7 @@ const processSSE = (event) => {
 };
 
 onMounted(() => {
-  fetchCounters();
+  fetchStatusesCounts();
   updateEventListener(processSSE);
 });
 </script>
